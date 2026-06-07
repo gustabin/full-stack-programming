@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>DOM & Events Demo</title>
+    <style>
+        .highlight {
+            background-color: yellow;
+        }
+
+        .box {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1 id="titulo">DOM Manipulation & Events Demo</h1>
+
+    <!-- 3.1.3 Inline Event -->
+    <button onclick="alert('This is an inline event!')">Inline Click</button>
+
+    <!-- Elements for Selection (3.2.2) -->
+    <p class="paragraph">First paragraph.</p>
+    <p class="paragraph">Second paragraph.</p>
+    <img id="myImage" src="old-image.jpg" alt="Sample Image">
+
+    <!-- Elements for Events (3.2.5) -->
+    <p id="hoverTarget">Hover your mouse over me!</p>
+    <input type="text" id="keyInput" placeholder="Type something here...">
+    <p id="keyOutput">Pressed keys will appear here.</p>
+
+    <!-- Container for Creation/Removal (3.2.4) -->
+    <div id="container" class="box">
+        <p id="removable">I am a paragraph that can be removed.</p>
+    </div>
+
+    <!-- Buttons for JavaScript Events -->
+    <button id="modifyBtn">Modify Elements</button>
+    <button id="addBtn">Add Paragraph</button>
+    <button id="removeBtn">Remove Paragraph</button>
+
+    <script>
+        // ==========================================
+        // 3.2.2 Selecting DOM Elements
+        // ==========================================
+        const byId = document.getElementById("titulo");
+        const byClass = document.getElementsByClassName("paragraph");
+        const byTag = document.getElementsByTagName("p");
+        const byQuery = document.querySelector("p");
+        const byQueryAll = document.querySelectorAll("p");
+
+        // Logging to console to show the difference between single nodes and collections
+        console.log("Single element:", byId, byQuery);
+        console.log("Collections:", byClass, byTag, byQueryAll);
+
+
+        // ==========================================
+        // 3.2.3 Modifying DOM Elements & 3.2.5 Events
+        // ==========================================
+        const modifyBtn = document.getElementById("modifyBtn");
+
+        // Event: click
+        modifyBtn.addEventListener("click", function () {
+            // Changing text content
+            byId.textContent = "Title Modified via textContent!";
+
+            // Changing styles
+            byId.style.color = "blue";
+
+            // Changing HTML content
+            const firstP = document.querySelector("p");
+            firstP.innerHTML = "<em>Changed via innerHTML!</em>";
+
+            // Changing attributes
+            const imagen = document.getElementById("myImage");
+            imagen.setAttribute("src", "new-image.jpg");
+            imagen.setAttribute("alt", "New Image Description");
+        });
+
+
+        // ==========================================
+        // 3.2.5 More DOM Events (mouseover, keyup)
+        // ==========================================
+        const hoverTarget = document.getElementById("hoverTarget");
+
+        // Event: mouseover
+        hoverTarget.addEventListener("mouseover", function () {
+            hoverTarget.style.backgroundColor = "lightgreen";
+        });
+        hoverTarget.addEventListener("mouseout", function () {
+            hoverTarget.style.backgroundColor = "transparent";
+        });
+
+        const keyInput = document.getElementById("keyInput");
+        const keyOutput = document.getElementById("keyOutput");
+
+        // Event: keyup
+        keyInput.addEventListener("keyup", function () {
+            keyOutput.textContent = "You typed: " + keyInput.value;
+        });
+
+
+        // ==========================================
+        // 3.2.4 Creating, Adding, and Removing Elements
+        // ==========================================
+        const addBtn = document.getElementById("addBtn");
+
+        // Event: click (Creating & Adding)
+        addBtn.addEventListener("click", function () {
+            const nuevoParagraph = document.createElement("p");
+            nuevoParagraph.textContent = "This is a dynamically added paragraph.";
+            nuevoParagraph.className = "paragraph"; // Adding a class
+
+            // Adding to the DOM
+            document.getElementById("container").appendChild(nuevoParagraph);
+        });
+
+        const removeBtn = document.getElementById("removeBtn");
+
+        // Event: click (Removing)
+        removeBtn.addEventListener("click", function () {
+            const deleteParagraph = document.getElementById("removable");
+            if (deleteParagraph) {
+                // Removing from the DOM
+                deleteParagraph.parentNode.removeChild(deleteParagraph);
+            } else {
+                alert("The element has already been removed!");
+            }
+        });
+    </script>
+</body>
+
+</html>

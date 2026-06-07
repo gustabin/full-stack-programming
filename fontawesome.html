@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FontAwesome Complete Example - CSS3 Course</title>
+
+    <!-- 2.5.2. Bootstrap via CDN -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- 2.6.3. FontAwesome via CDN -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+
+    <!-- 2.6.6. Custom CSS for FontAwesome customization -->
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding-bottom: 50px;
+        }
+
+        /* Custom navbar */
+        .navbar-custom {
+            background: linear-gradient(90deg, #2c3e50 0%, #34495e 100%) !important;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .navbar-custom .navbar-brand,
+        .navbar-custom .nav-link {
+            color: #fff !important;
+        }
+
+        .navbar-custom .nav-link:hover {
+            color: #3498db !important;
+        }
+
+        /* Section styling */
+        .section-title {
+            color: white;
+            text-align: center;
+            margin: 40px 0 30px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            font-weight: bold;
+        }
+
+        .section-subtitle {
+            color: #f8f9fa;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+
+        /* Card styling */
+        .demo-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+            transition: transform 0.3s ease;
+        }
+
+        .demo-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .demo-card h4 {
+            color: #2c3e50;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        /* Icon showcase containers */
+        .icon-showcase {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+            text-align: center;
+            border: 2px dashed #dee2e6;
+        }
+
+        .icon-showcase i {
+            margin: 10px;
+            transition: all 0.3s ease;
+        }
+
+        /* 2.6.9. Hover effect for icons */
+        .fa-hover:hover {
+            transform: scale(1.3);
+            color: #667eea !important;
+            cursor: pointer;
+        }
+
+        /* Social media buttons */
+        .social-btn {
+            display: inline-block;
+            margin: 10px;
+            padding: 15px 20px;
+            border-radius: 50px;
+            color: white !important;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .social-btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+            color: white !important;
+            text-decoration: none;
+        }
+
+        .social-facebook {
+            background: #3b5998;
+        }
+
+        .social-twitter {
+            background: #1da1f2;
+        }
+
+        .social-instagram {
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+        }
+
+        .social-linkedin {
+            background: #0077b5;
+        }
+
+        .social-github {
+            background: #333;
+        }
+
+        /* Icon list styling */
+        .icon-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .icon-list li {
+            padding: 10px 15px;
+            margin: 5px 0;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+            transition: all 0.3s ease;
+        }
+
+        .icon-list li:hover {
+            background: #e9ecef;
+            transform: translateX(5px);
+        }
+
+        .icon-list li i {
+            width: 30px;
+            color: #667eea;
+        }
+
+        /* Category cards */
+        .category-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        .category-card h5 {
+            border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+
+        .category-card .icon-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+
+        .category-card .icon-grid i {
+            font-size: 2rem;
+            margin: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .category-card .icon-grid i:hover {
+            transform: scale(1.3);
+        }
+
+        /* Info box */
+        .info-box {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 5px solid #667eea;
+        }
+
+        /* Summary section */
+        .summary-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .summary-card h4 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .summary-card ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .summary-card ul li {
+            padding: 12px 15px;
+            margin: 8px 0;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #28a745;
+        }
+
+        .summary-card ul li i {
+            color: #28a745;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navbar with FontAwesome icons -->
+    <nav class="navbar navbar-expand-lg navbar-custom">
+        <a class="navbar-brand" href="#">
+            <i class="fas fa-icons mr-2"></i> FontAwesome Course
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item"><a class="nav-link" href="#intro"><i class="fas fa-info-circle mr-1"></i> Intro</a>
+                </li>
+                <li class="nav-item"><a class="nav-link" href="#basic"><i class="fas fa-star mr-1"></i> Basic</a></li>
+                <li class="nav-item"><a class="nav-link" href="#size"><i class="fas fa-text-height mr-1"></i> Size</a>
+                </li>
+                <li class="nav-item"><a class="nav-link" href="#color"><i class="fas fa-palette mr-1"></i> Color</a>
+                </li>
+                <li class="nav-item"><a class="nav-link" href="#effects"><i class="fas fa-magic mr-1"></i> Effects</a>
+                </li>
+                <li class="nav-item"><a class="nav-link" href="#links"><i class="fas fa-link mr-1"></i> Links</a></li>
+                <li class="nav-item"><a class="nav-link" href="#categories"><i class="fas fa-th mr-1"></i>
+                        Categories</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+
+        <!-- 2.6.1. What is FontAwesome? -->
+        <h2 class="section-title" id="intro">
+            <i class="fas fa-question-circle mr-2"></i> 2.6.1. What is FontAwesome?
+        </h2>
+        <div class="demo-card">
+            <p class="lead">
+                <i class="fas fa-quote-left fa-2x text-primary mr-2"></i>
+                FontAwesome is one of the most popular and widely used icon libraries in web development.
+                It provides a vast variety of vector icons that can be used on websites and applications.
+                <i class="fas fa-quote-right fa-2x text-primary ml-2"></i>
+            </p>
+            <div class="row mt-4">
+                <div class="col-md-4 text-center">
+                    <i class="fas fa-expand-arrows-alt fa-3x text-primary mb-2"></i>
+                    <h5>Scalable</h5>
+                    <p>Icons can be resized without losing quality</p>
+                </div>
+                <div class="col-md-4 text-center">
+                    <i class="fas fa-paint-brush fa-3x text-success mb-2"></i>
+                    <h5>Customizable</h5>
+                    <p>Change colors, sizes, and animations with CSS</p>
+                </div>
+                <div class="col-md-4 text-center">
+                    <i class="fas fa-th-large fa-3x text-danger mb-2"></i>
+                    <h5>Extensive</h5>
+                    <p>Thousands of icons in various categories</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2.6.2. & 2.6.3. How to include FontAwesome -->
+        <h2 class="section-title" id="include">
+            <i class="fas fa-download mr-2"></i> 2.6.2. & 2.6.3. Including FontAwesome
+        </h2>
+        <div class="demo-card">
+            <h4><i class="fas fa-code mr-2"></i> Two Common Methods</h4>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="info-box">
+                        <h5><i class="fas fa-cloud text-primary mr-2"></i> Via CDN (Fastest)</h5>
+                        <p>Add this to the <code>&lt;head&gt;</code> of your HTML:</p>
+                        <pre
+                            style="background: #2c3e50; color: #ecf0f1; padding: 10px; border-radius: 5px; font-size: 0.85rem;">&lt;link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"&gt;</pre>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="info-box">
+                        <h5><i class="fas fa-hdd text-success mr-2"></i> Local Download</h5>
+                        <p>Download from <a href="https://fontawesome.com" target="_blank">FontAwesome.com</a> and link
+                            locally:</p>
+                        <pre
+                            style="background: #2c3e50; color: #ecf0f1; padding: 10px; border-radius: 5px; font-size: 0.85rem;">&lt;link href="path/to/fontawesome/css/all.min.css" rel="stylesheet"&gt;</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2.6.5. Basic Icon Usage -->
+        <h2 class="section-title" id="basic">
+            <i class="fas fa-star mr-2"></i> 2.6.5. Basic Icon Usage
+        </h2>
+        <div class="demo-card">
+            <h4><i class="fas fa-icons mr-2"></i> Icon Styles</h4>
+            <p>FontAwesome provides different icon styles using specific classes:</p>
+
+            <div class="icon-showcase">
+                <h5><code>fas</code> - Solid Icons (Default)</h5>
+                <i class="fas fa-home fa-3x text-primary"></i>
+                <i class="fas fa-user fa-3x text-primary"></i>
+                <i class="fas fa-cog fa-3x text-primary"></i>
+                <i class="fas fa-envelope fa-3x text-primary"></i>
+                <i class="fas fa-bell fa-3x text-primary"></i>
+            </div>
+
+            <div class="icon-showcase">
+                <h5><code>far</code> - Regular Icons (Outlines)</h5>
+                <i class="far fa-home fa-3x text-success"></i>
+                <i class="far fa-user fa-3x text-success"></i>
+                <i class="far fa-cog fa-3x text-success"></i>
+                <i class="far fa-envelope fa-3x text-success"></i>
+                <i class="far fa-bell fa-3x text-success"></i>
+            </div>
+
+            <div class="icon-showcase">
+                <h5><code>fab</code> - Brand Icons (Logos)</h5>
+                <i class="fab fa-facebook fa-3x" style="color: #3b5998;"></i>
+                <i class="fab fa-twitter fa-3x" style="color: #1da1f2;"></i>
+                <i class="fab fa-instagram fa-3x" style="color: #e1306c;"></i>
+                <i class="fab fa-linkedin fa-3x" style="color: #0077b5;"></i>
+                <i class="fab fa-github fa-3x" style="color: #333;"></i>
+            </div>
+        </div>
+
+        <!-- 2.6.7. Changing Icon Size -->
+        <h2 class="section-title" id="size">
+            <i class="fas fa-text-height mr-2"></i> 2.6.7. Changing Icon Size
+        </h2>
+        <div class="demo-card">
+            <h4><i class="fas fa-ruler-combined mr-2"></i> Size Options</h4>
+
+            <div class="icon-showcase">
+                <h5>Using FontAwesome Size Classes</h5>
+                <i class="fas fa-home text-primary" title="Default"></i>
+                <i class="fas fa-home fa-2x text-primary" title="fa-2x"></i>
+                <i class="fas fa-home fa-3x text-primary" title="fa-3x"></i>
+                <i class="fas fa-home fa-5x text-primary" title="fa-5x"></i>
+                <i class="fas fa-home fa-7x text-primary" title="fa-7x"></i>
+                <p class="mt-3"><small>Default → fa-2x → fa-3x → fa-5x → fa-7x</small></p>
+            </div>
+
+            <div class="icon-showcase">
+                <h5>Using Custom CSS</h5>
+                <i class="fas fa-star" style="font-size: 20px; color: gold;"></i>
+                <i class="fas fa-star" style="font-size: 40px; color: gold;"></i>
+                <i class="fas fa-star" style="font-size: 60px; color: gold;"></i>
+                <i class="fas fa-star" style="font-size: 80px; color: gold;"></i>
+                <p class="mt-3"><small>Custom sizes: 20px, 40px, 60px, 80px</small></p>
+            </div>
+        </div>
+
+        <!-- 2.6.8. Changing Icon Color -->
+        <h2 class="section-title" id="color">
+            <i class="fas fa-palette mr-2"></i> 2.6.8. Changing Icon Color
+        </h2>
+        <div class="demo-card">
+            <h4><i class="fas fa-fill-drip mr-2"></i> Color Options</h4>
+
+            <div class="icon-showcase">
+                <h5>Using Bootstrap Color Classes</h5>
+                <i class="fas fa-heart fa-3x text-primary" title="text-primary"></i>
+                <i class="fas fa-heart fa-3x text-success" title="text-success"></i>
+                <i class="fas fa-heart fa-3x text-danger" title="text-danger"></i>
+                <i class="fas fa-heart fa-3x text-warning" title="text-warning"></i>
+                <i class="fas fa-heart fa-3x text-info" title="text-info"></i>
+                <i class="fas fa-heart fa-3x text-secondary" title="text-secondary"></i>
+                <i class="fas fa-heart fa-3x text-dark" title="text-dark"></i>
+            </div>
+
+            <div class="icon-showcase">
+                <h5>Using Custom CSS Colors</h5>
+                <i class="fas fa-gem fa-3x" style="color: #ff6347;" title="Tomato"></i>
+                <i class="fas fa-gem fa-3x" style="color: #9b59b6;" title="Purple"></i>
+                <i class="fas fa-gem fa-3x" style="color: #16a085;" title="Teal"></i>
+                <i class="fas fa-gem fa-3x" style="color: #e67e22;" title="Orange"></i>
+                <i class="fas fa-gem fa-3x" style="color: #34495e;" title="Dark Blue"></i>
+                <p class="mt-3"><small>Custom hex colors applied via inline CSS</small></p>
+            </div>
+        </div>
+
+        <!-- 2.6.9. Adding Effects to Icons -->
+        <h2 class="section-title" id="effects">
+            <i class="fas fa-magic mr-2"></i> 2.6.9. Adding Effects to Icons
+        </h2>
+        <div class="demo-card">
+            <h4><i class="fas fa-bolt mr-2"></i> Animation & Effects</h4>
+
+            <div class="icon-showcase">
+                <h5>Rotation Animation (<code>fa-spin</code>)</h5>
+                <i class="fas fa-spinner fa-spin fa-3x text-primary mx-3"></i>
+                <i class="fas fa-sync fa-spin fa-3x text-success mx-3"></i>
+                <i class="fas fa-cog fa-spin fa-3x text-danger mx-3"></i>
+                <i class="fas fa-circle-notch fa-spin fa-3x text-warning mx-3"></i>
+            </div>
+
+            <div class="icon-showcase">
+                <h5>Pulse Animation (<code>fa-pulse</code>)</h5>
+                <i class="fas fa-heart fa-pulse fa-3x text-danger mx-3"></i>
+                <i class="fas fa-bell fa-pulse fa-3x text-warning mx-3"></i>
+                <i class="fas fa-broadcast-tower fa-pulse fa-3x text-info mx-3"></i>
+            </div>
+
+            <div class="icon-showcase">
+                <h5>Hover Effects (Try hovering!)</h5>
+                <i class="fas fa-home fa-3x fa-hover text-primary mx-3"></i>
+                <i class="fas fa-user fa-3x fa-hover text-success mx-3"></i>
+                <i class="fas fa-envelope fa-3x fa-hover text-danger mx-3"></i>
+                <i class="fas fa-bell fa-3x fa-hover text-warning mx-3"></i>
+                <i class="fas fa-star fa-3x fa-hover text-info mx-3"></i>
+                <p class="mt-3"><small>Hover over the icons to see the scale and color effect</small></p>
+            </div>
+        </div>
+
+        <!-- 2.6.10. Icons with Links -->
+        <h2 class="section-title" id="links">
+            <i class="fas fa-link mr-2"></i> 2.6.10. Icons with Links
+        </h2>
+        <div class="demo-card">
+            <h4><i class="fas fa-share-alt mr-2"></i> Social Media Buttons</h4>
+            <p class="text-center">Icons can be used as interactive links, perfect for social media buttons:</p>
+
+            <div class="text-center my-4">
+                <a href="https://facebook.com" target="_blank" class="social-btn social-facebook">
+                    <i class="fab fa-facebook fa-2x"></i> Facebook
+                </a>
+                <a href="https://twitter.com" target="_blank" class="social-btn social-twitter">
+                    <i class="fab fa-twitter fa-2x"></i> Twitter
+                </a>
+                <a href="https://instagram.com" target="_blank" class="social-btn social-instagram">
+                    <i class="fab fa-instagram fa-2x"></i> Instagram
+                </a>
+                <a href="https://linkedin.com" target="_blank" class="social-btn social-linkedin">
+                    <i class="fab fa-linkedin fa-2x"></i> LinkedIn
+                </a>
+                <a href="https://github.com" target="_blank" class="social-btn social-github">
+                    <i class="fab fa-github fa-2x"></i> GitHub
+                </a>
+            </div>
+
+            <div class="info-box">
+                <h5><i class="fas fa-info-circle mr-2"></i> Code Example</h5>
+                <pre
+                    style="background: #2c3e50; color: #ecf0f1; padding: 10px; border-radius: 5px; font-size: 0.85rem;">&lt;a href="https://facebook.com" target="_blank"&gt;
+  &lt;i class="fab fa-facebook fa-3x"&gt;&lt;/i&gt;
+&lt;/a&gt;</pre>
+            </div>
+        </div>
+
+        <!-- 2.6.11. Icon Lists / Categories -->
+        <h2 class="section-title" id="categories">
+            <i class="fas fa-th mr-2"></i> 2.6.11. Icon Categories
+        </h2>
+        <div class="demo-card">
+            <h4><i class="fas fa-layer-group mr-2"></i> Icon Categories Overview</h4>
+            <p>FontAwesome has an extensive list of icons, grouped into different categories:</p>
+
+            <div class="row mt-4">
+                <div class="col-md-6">
+                    <div class="category-card">
+                        <h5><i class="fas fa-running mr-2"></i> Action Icons</h5>
+                        <div class="icon-grid">
+                            <i class="fas fa-home" title="home"></i>
+                            <i class="fas fa-search" title="search"></i>
+                            <i class="fas fa-edit" title="edit"></i>
+                            <i class="fas fa-download" title="download"></i>
+                            <i class="fas fa-upload" title="upload"></i>
+                            <i class="fas fa-share" title="share"></i>
+                            <i class="fas fa-trash" title="trash"></i>
+                            <i class="fas fa-save" title="save"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="category-card">
+                        <h5><i class="fas fa-desktop mr-2"></i> User Interface</h5>
+                        <div class="icon-grid">
+                            <i class="fas fa-user" title="user"></i>
+                            <i class="fas fa-cog" title="settings"></i>
+                            <i class="fas fa-bell" title="notification"></i>
+                            <i class="fas fa-lock" title="lock"></i>
+                            <i class="fas fa-key" title="key"></i>
+                            <i class="fas fa-shield-alt" title="shield"></i>
+                            <i class="fas fa-sliders-h" title="sliders"></i>
+                            <i class="fas fa-tools" title="tools"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="category-card">
+                        <h5><i class="fas fa-hashtag mr-2"></i> Social Media</h5>
+                        <div class="icon-grid">
+                            <i class="fab fa-facebook" title="facebook"></i>
+                            <i class="fab fa-twitter" title="twitter"></i>
+                            <i class="fab fa-linkedin" title="linkedin"></i>
+                            <i class="fab fa-instagram" title="instagram"></i>
+                            <i class="fab fa-youtube" title="youtube"></i>
+                            <i class="fab fa-whatsapp" title="whatsapp"></i>
+                            <i class="fab fa-telegram" title="telegram"></i>
+                            <i class="fab fa-tiktok" title="tiktok"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="category-card">
+                        <h5><i class="fas fa-microchip mr-2"></i> Technology</h5>
+                        <div class="icon-grid">
+                            <i class="fas fa-laptop" title="laptop"></i>
+                            <i class="fas fa-mobile-alt" title="mobile"></i>
+                            <i class="fas fa-cloud" title="cloud"></i>
+                            <i class="fas fa-database" title="database"></i>
+                            <i class="fas fa-server" title="server"></i>
+                            <i class="fas fa-wifi" title="wifi"></i>
+                            <i class="fas fa-code" title="code"></i>
+                            <i class="fas fa-robot" title="robot"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-box mt-4">
+                <h5><i class="fas fa-list-ul mr-2"></i> Example: Icon List in Navigation</h5>
+                <ul class="icon-list">
+                    <li><i class="fas fa-home fa-lg"></i> <strong>Home</strong> - Return to the main page</li>
+                    <li><i class="fas fa-user fa-lg"></i> <strong>Profile</strong> - View your account details</li>
+                    <li><i class="fas fa-envelope fa-lg"></i> <strong>Messages</strong> - Check your inbox</li>
+                    <li><i class="fas fa-cog fa-lg"></i> <strong>Settings</strong> - Customize your preferences</li>
+                    <li><i class="fas fa-sign-out-alt fa-lg"></i> <strong>Logout</strong> - Sign out of your account
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Summary -->
+        <h2 class="section-title">
+            <i class="fas fa-clipboard-check mr-2"></i> Summary
+        </h2>
+        <div class="summary-card">
+            <h4><i class="fas fa-graduation-cap mr-2"></i> What We Covered</h4>
+            <ul>
+                <li><i class="fas fa-check-circle"></i> <strong>2.6.1</strong> What FontAwesome is and its benefits</li>
+                <li><i class="fas fa-check-circle"></i> <strong>2.6.2 & 2.6.3</strong> How to include FontAwesome via
+                    CDN or local download</li>
+                <li><i class="fas fa-check-circle"></i> <strong>2.6.5</strong> Basic icon usage with <code>fas</code>,
+                    <code>far</code>, and <code>fab</code> classes</li>
+                <li><i class="fas fa-check-circle"></i> <strong>2.6.7</strong> Changing icon size using FontAwesome
+                    classes and custom CSS</li>
+                <li><i class="fas fa-check-circle"></i> <strong>2.6.8</strong> Changing icon color using Bootstrap and
+                    custom CSS</li>
+                <li><i class="fas fa-check-circle"></i> <strong>2.6.9</strong> Adding effects like <code>fa-spin</code>,
+                    <code>fa-pulse</code>, and hover animations</li>
+                <li><i class="fas fa-check-circle"></i> <strong>2.6.10</strong> Using icons within links and interactive
+                    components</li>
+                <li><i class="fas fa-check-circle"></i> <strong>2.6.11</strong> Overview of icon categories available in
+                    FontAwesome</li>
+            </ul>
+            <p class="text-center mt-4 lead">
+                <i class="fas fa-lightbulb fa-2x text-warning mr-2"></i>
+                <strong>Using FontAwesome, you can enrich your website's user interface and make it more attractive and
+                    functional with minimal effort!</strong>
+            </p>
+        </div>
+
+    </div>
+
+    <!-- Bootstrap JavaScript dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+
+</html>

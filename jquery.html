@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>jQuery Introduction Demo</title>
+
+    <!-- 3.4.2 Including jQuery via CDN -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <style>
+        .highlight {
+            background-color: yellow;
+            font-weight: bold;
+        }
+
+        .box {
+            border: 1px solid #ccc;
+            padding: 15px;
+            margin: 10px 0;
+            width: 200px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>jQuery Introduction Demo</h1>
+
+    <!-- Targets for 3.4.4 DOM Manipulation -->
+    <h2 id="myElement">Original Text</h2>
+    <p id="myParagraph">Original paragraph content.</p>
+    <a id="myLink" href="https://www.old-link.com">Old Link</a>
+    <br><br>
+
+    <!-- Targets for 3.4.5 Event Handling -->
+    <button id="miBoton">Click Me!</button>
+    <br><br>
+    <input type="text" id="miInput" placeholder="Type something...">
+    <p id="keyOutput">Keys pressed will appear here.</p>
+    <br>
+    <div id="hoverElement" class="box">Hover over me!</div>
+    <br>
+
+    <!-- Targets for 3.4.6 Animations -->
+    <button id="fadeBtn">Toggle Fade</button>
+    <button id="slideBtn">Toggle Slide</button>
+    <div id="animElement" class="box" style="background-color: lightblue;">I will animate!</div>
+
+    <script>
+        // Wait for the HTML document to be fully loaded before running jQuery
+        $(document).ready(function () {
+
+            // ==========================================
+            // 3.4.3 & 3.4.4 Basic Syntax & DOM Manipulation
+            // ==========================================
+
+            // 3.4.3 Basic selector and changing CSS
+            $("#myElement").css("color", "blue");
+
+            // Changing text and HTML content
+            $("#myElement").text("New Text via jQuery!");
+            $("#myParagraph").html("<em>New HTML content with <strong>tags</strong></em>");
+
+            // Adding a CSS class
+            $("#myElement").addClass("highlight");
+
+            // Changing an attribute
+            $("#myLink").attr("href", "https://www.new-link.com");
+            $("#myLink").text("New Link via jQuery");
+
+
+            // ==========================================
+            // 3.4.5 Event Handling
+            // ==========================================
+
+            // Click event
+            $("#miBoton").click(function () {
+                alert("Button clicked using jQuery!");
+            });
+
+            // Keyboard event (keyup)
+            $("#miInput").keyup(function () {
+                // $(this) refers to the specific element that triggered the event
+                $("#keyOutput").text("Key pressed: " + $(this).val());
+            });
+
+            // Mouse event (mouseenter)
+            $("#hoverElement").mouseenter(function () {
+                $(this).css("background-color", "lightgreen");
+            }).mouseleave(function () {
+                // Resetting color when the mouse leaves
+                $(this).css("background-color", "");
+            });
+
+
+            // ==========================================
+            // 3.4.6 Animations
+            // ==========================================
+
+            // Toggle Fade Out / Fade In
+            let isFaded = false;
+            $("#fadeBtn").click(function () {
+                if (!isFaded) {
+                    $("#animElement").fadeOut(1000); // Fades out in 1 second
+                } else {
+                    $("#animElement").fadeIn(1000);  // Fades in in 1 second
+                }
+                isFaded = !isFaded;
+            });
+
+            // Toggle Slide Up / Slide Down
+            let isSlid = false;
+            $("#slideBtn").click(function () {
+                if (!isSlid) {
+                    $("#animElement").slideUp(1000); // Slides up in 1 second
+                } else {
+                    $("#animElement").slideDown(1000); // Slides down in 1 second
+                }
+                isSlid = !isSlid;
+            });
+
+        });
+    </script>
+</body>
+
+</html>

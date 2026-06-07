@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>jQuery AJAX & SweetAlert Demo</title>
+
+    <!-- 3.4.2 & 3.5.2 Including jQuery and SweetAlert2 via CDN -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 20px auto;
+            text-align: center;
+        }
+
+        button {
+            margin: 5px;
+            padding: 10px 15px;
+            cursor: pointer;
+        }
+
+        h3 {
+            margin-top: 20px;
+            color: #555;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>jQuery AJAX & SweetAlert Demo</h1>
+
+    <!-- Buttons for SweetAlert Examples -->
+    <h3>SweetAlert Features</h3>
+    <button id="btnBasic">Basic Alert</button>
+    <button id="btnTimer">Alert with Timer</button>
+    <button id="btnConfirm">Confirm / Cancel</button>
+    <button id="btnInputText">Input Text</button>
+    <button id="btnInputSelect">Input Select</button>
+
+    <!-- Buttons for AJAX Examples -->
+    <h3>jQuery AJAX Integration</h3>
+    <button id="btnAjaxGet">AJAX GET Request</button>
+    <button id="btnAjaxPost">AJAX POST + SweetAlert</button>
+
+    <script>
+        $(document).ready(function () {
+
+            // ==========================================
+            // 3.5. SweetAlert Examples
+            // ==========================================
+
+            // 3.5.3 Basic SweetAlert Usage
+            $("#btnBasic").click(function () {
+                Swal.fire("Hello!", "This is a basic SweetAlert alert.", "info");
+            });
+
+            // 4.2 Alert with a timer (auto-dismiss)
+            $("#btnTimer").click(function () {
+                Swal.fire({
+                    title: "Loading...",
+                    text: "This will close automatically in 3 seconds.",
+                    icon: "info",
+                    timer: 3000,
+                    showConfirmButton: false // Hides the OK button
+                });
+            });
+
+            // 4.3 & 4.5 Alert with confirm/cancel and handling user response
+            $("#btnConfirm").click(function () {
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "You won't be able to revert this!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonText: "Yes, delete it!",
+                    cancelButtonText: "Cancel"
+                }).then((result) => {
+                    // 4.5 Handling user events and responses
+                    if (result.isConfirmed) {
+                        Swal.fire("Deleted!", "Your file has been deleted.", "success");
+                    } else if (result.dismiss === Swal.DismissReason.cancel) {
+                        Swal.fire("Cancelled", "Your imaginary file is safe :)", "error");
+                    }
+                });
+            });
+
+            // 4.7 Alert with a text input field
+            $("#btnInputText").click(function () {
+                Swal.fire({
+                    title: "Enter your name",
+                    input: "text",
+                    inputPlaceholder: "Type your name here",
+                    showCancelButton: true
+                }).then((result) => {
+                    if (result.value) {
+                        Swal.fire(`Hello, ${result.value}!`, "", "success");
+                    }
+                });
+            });
+
+            // 4.8 Alert with option selection
+            $("#btnInputSelect").click(function () {
+                Swal.fire({
+                    title: "Select a color",
+                    input: "select",
+                    inputOptions: {
+                        'red': 'Red',
+                        'blue': 'Blue',
+                        'green': 'Green'
+                    },
+                    inputPlaceholder: "Choose a color",
+                    showCancelButton: true
+                }).then((result) => {
+                    if (result.value) {
+                        Swal.fire(`You chose: ${result.value}`, "", "success");
+                    }
+                });
+            });
+
+
+            // ==========================================
+            // 3.4.7 jQuery AJAX & 4.9 Integration with SweetAlert
+            // ==========================================
+
+            // 3.4.7 Making a GET request with jQuery
+            $("#btnAjaxGet").click(function () {
+                // Show a loading SweetAlert while waiting for the server
+                Swal.fire({ title: "Fetching data...", didOpen: () => Swal.showLoading() });
+
+                // Using a free dummy API for demonstration
+                $.get("https://jsonplaceholder.typicode.com/todos/1", function (data) {
+                    // Close the loading alert and show the retrieved data
+                    Swal.close();
+                    Swal.fire({
+                        title: "GET Request Successful!",
+                        html: `<b>Title:</b> ${data.title}<br><b>Completed:</b> ${data.completed}`,
+                        icon: "success"
+                    });
+                });
+            });
+
+            // 4.9 Integrating SweetAlert with AJAX (POST request)
+            $("#btnAjaxPost").click(function () {
+                // Step 1: Capture data using a SweetAlert input
+                Swal.fire({
+                    title: "Enter your email to send",
+                    input: "email",
+                    inputPlaceholder: "email@example.com",
+                    showCancelButton: true,
+                    confirmButtonText: "Send"
+                }).then((result) => {
+                    if (result.value) {
+                        // Step 2: If valid, show loading and make a POST request
+                        Swal.fire({ title: "Sending...", didOpen: () => Swal.showLoading() });
+
+                        $.post("https://jsonplaceholder.typicode.com/posts",
+                            { email: result.value, subject: "Test" },
+                            function (response) {
+                                // Step 3: Show success alert with the server's response
+                                Swal.fire({
+                                    title: "Email Sent!",
+                                    text: `Server responded with ID: ${response.id}`,
+                                    icon: "success"
+                                });
+                            }
+                        );
+                    }
+                });
+            });
+
+        });
+    </script>
+</body>
+
+</html>

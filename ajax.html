@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 5: AJAX & RESTful APIs - Complete Example</title>
+
+    <!-- Bootstrap & FontAwesome -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+
+    <!-- jQuery (3.4.2) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- SweetAlert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding-bottom: 50px;
+        }
+
+        .navbar-custom {
+            background: linear-gradient(90deg, #2c3e50 0%, #34495e 100%) !important;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .navbar-custom .navbar-brand,
+        .navbar-custom .nav-link {
+            color: #fff !important;
+        }
+
+        .section-title {
+            color: white;
+            text-align: center;
+            margin: 40px 0 30px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            font-weight: bold;
+        }
+
+        .demo-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .demo-card h4 {
+            color: #2c3e50;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .user-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 10px 0;
+            border-left: 4px solid #667eea;
+            transition: all 0.3s ease;
+        }
+
+        .user-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-custom {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            transition: all 0.3s ease;
+        }
+
+        .btn-custom:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+            color: white;
+        }
+
+        .code-block {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            margin: 15px 0;
+            overflow-x: auto;
+        }
+
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #dc3545;
+            margin: 15px 0;
+            display: none;
+        }
+
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #28a745;
+            margin: 15px 0;
+            display: none;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 20px;
+            display: none;
+        }
+
+        .loading i {
+            font-size: 2rem;
+            color: #667eea;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .method-badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.85rem;
+            margin-right: 10px;
+        }
+
+        .method-get {
+            background: #28a745;
+            color: white;
+        }
+
+        .method-post {
+            background: #007bff;
+            color: white;
+        }
+
+        .method-put {
+            background: #ffc107;
+            color: #212529;
+        }
+
+        .method-delete {
+            background: #dc3545;
+            color: white;
+        }
+
+        .tab-content {
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 0 0 10px 10px;
+        }
+
+        .nav-tabs .nav-link {
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .nav-tabs .nav-link.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-custom">
+        <a class="navbar-brand" href="#">
+            <i class="fas fa-exchange-alt mr-2"></i> Module 5: AJAX & RESTful APIs
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item"><a class="nav-link" href="#intro"><i class="fas fa-info-circle mr-1"></i> Intro</a>
+                </li>
+                <li class="nav-item"><a class="nav-link" href="#fetch"><i class="fas fa-code mr-1"></i> Fetch API</a>
+                </li>
+                <li class="nav-item"><a class="nav-link" href="#jquery"><i class="fab fa-js mr-1"></i> jQuery AJAX</a>
+                </li>
+                <li class="nav-item"><a class="nav-link" href="#crud"><i class="fas fa-database mr-1"></i> CRUD</a></li>
+                <li class="nav-item"><a class="nav-link" href="#errors"><i class="fas fa-exclamation-triangle mr-1"></i>
+                        Errors</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+
+        <!-- 5.1 Introduction to AJAX -->
+        <h2 class="section-title" id="intro">
+            <i class="fas fa-question-circle mr-2"></i> 5.1. What is AJAX?
+        </h2>
+        <div class="demo-card">
+            <h4><i class="fas fa-bolt mr-2"></i> Asynchronous JavaScript and XML</h4>
+            <p class="lead">
+                AJAX is a technique that allows web applications to send and receive data from a server
+                <strong>asynchronously</strong> without reloading the page.
+            </p>
+            <div class="row mt-4">
+                <div class="col-md-4 text-center">
+                    <i class="fas fa-sync-alt fa-3x text-primary mb-2"></i>
+                    <h5>No Page Reload</h5>
+                    <p>Update specific parts without refreshing</p>
+                </div>
+                <div class="col-md-4 text-center">
+                    <i class="fas fa-tachometer-alt fa-3x text-success mb-2"></i>
+                    <h5>Faster</h5>
+                    <p>Improved speed and user experience</p>
+                </div>
+                <div class="col-md-4 text-center">
+                    <i class="fas fa-server fa-3x text-danger mb-2"></i>
+                    <h5>Efficient</h5>
+                    <p>Reduces server load</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 5.3 CRUD Operations with Fetch API -->
+        <h2 class="section-title" id="fetch">
+            <i class="fas fa-code mr-2"></i> 5.3. CRUD with Fetch API (Pure JavaScript)
+        </h2>
+        <div class="demo-card">
+            <h4><i class="fas fa-users mr-2"></i> User Management - Fetch API</h4>
+            <p>Using the <strong>JSONPlaceholder API</strong> (free REST API for testing)</p>
+
+            <div class="loading" id="loadingFetch">
+                <i class="fas fa-spinner"></i>
+                <p>Loading...</p>
+            </div>
+
+            <div class="error-message" id="errorFetch"></div>
+            <div class="success-message" id="successFetch"></div>
+
+            <!-- GET Users -->
+            <div class="mb-4">
+                <h5><span class="method-badge method-get">GET</span> Retrieve Users</h5>
+                <button class="btn btn-custom" onclick="fetchGetUsers()">
+                    <i class="fas fa-download mr-2"></i> Load Users
+                </button>
+                <div id="usersList" class="mt-3"></div>
+            </div>
+
+            <!-- POST User -->
+            <div class="mb-4">
+                <h5><span class="method-badge method-post">POST</span> Create User</h5>
+                <div class="form-row">
+                    <div class="col-md-5">
+                        <input type="text" id="newName" class="form-control" placeholder="Name">
+                    </div>
+                    <div class="col-md-5">
+                        <input type="email" id="newEmail" class="form-control" placeholder="Email">
+                    </div>
+                    <div class="col-md-2">
+                        <button class="btn btn-custom btn-block" onclick="fetchPostUser()">
+                            <i class="fas fa-plus"></i> Add
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PUT User -->
+            <div class="mb-4">
+                <h5><span class="method-badge method-put">PUT</span> Update User</h5>
+                <div class="form-row">
+                    <div class="col-md-3">
+                        <input type="number" id="updateId" class="form-control" placeholder="ID" value="1">
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" id="updateName" class="form-control" placeholder="New Name">
+                    </div>
+                    <div class="col-md-3">
+                        <input type="email" id="updateEmail" class="form-control" placeholder="New Email">
+                    </div>
+                    <div class="col-md-2">
+                        <button class="btn btn-custom btn-block" onclick="fetchPutUser()">
+                            <i class="fas fa-edit"></i> Update
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DELETE User -->
+            <div class="mb-4">
+                <h5><span class="method-badge method-delete">DELETE</span> Delete User</h5>
+                <div class="form-row">
+                    <div class="col-md-10">
+                        <input type="number" id="deleteId" class="form-control" placeholder="User ID to delete"
+                            value="1">
+                    </div>
+                    <div class="col-md-2">
+                        <button class="btn btn-danger btn-block" onclick="fetchDeleteUser()">
+                            <i class="fas fa-trash"></i> Delete
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="code-block">
+                <strong>Example: GET Request with Fetch API</strong><br>
+                fetch("https://jsonplaceholder.typicode.com/users")<br>
+                &nbsp;&nbsp;.then(response => response.json())<br>
+                &nbsp;&nbsp;.then(data => console.log(data))<br>
+                &nbsp;&nbsp;.catch(error => console.error("Error:", error));
+            </div>
+        </div>
+
+        <!-- 5.1 jQuery AJAX -->
+        <h2 class="section-title" id="jquery">
+            <i class="fab fa-js mr-2"></i> 5.1. AJAX with jQuery
+        </h2>
+        <div class="demo-card">
+            <h4><i class="fas fa-code mr-2"></i> jQuery AJAX Methods</h4>
+            <p>jQuery simplifies AJAX requests with <code>$.ajax()</code>, <code>$.get()</code>, <code>$.post()</code>
+            </p>
+
+            <ul class="nav nav-tabs" id="jqueryTabs" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="get-tab" data-toggle="tab" href="#jqueryGet" role="tab">
+                        <span class="method-badge method-get">GET</span> Get Posts
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="post-tab" data-toggle="tab" href="#jqueryPost" role="tab">
+                        <span class="method-badge method-post">POST</span> Create Post
+                    </a>
+                </li>
+            </ul>
+
+            <div class="tab-content" id="jqueryTabsContent">
+                <!-- jQuery GET -->
+                <div class="tab-pane fade show active" id="jqueryGet" role="tabpanel">
+                    <button class="btn btn-custom" onclick="jqueryGetPosts()">
+                        <i class="fas fa-download mr-2"></i> Load Posts with jQuery
+                    </button>
+                    <div id="postsList" class="mt-3"></div>
+                </div>
+
+                <!-- jQuery POST -->
+                <div class="tab-pane fade" id="jqueryPost" role="tabpanel">
+                    <div class="form-group">
+                        <input type="text" id="postTitle" class="form-control" placeholder="Post Title">
+                    </div>
+                    <div class="form-group">
+                        <textarea id="postBody" class="form-control" rows="3" placeholder="Post Content"></textarea>
+                    </div>
+                    <button class="btn btn-custom" onclick="jqueryPostPost()">
+                        <i class="fas fa-plus mr-2"></i> Create Post
+                    </button>
+                    <div id="postResult" class="mt-3"></div>
+                </div>
+            </div>
+
+            <div class="code-block mt-3">
+                <strong>Example: jQuery AJAX</strong><br>
+                $.ajax({<br>
+                &nbsp;&nbsp;url: "https://jsonplaceholder.typicode.com/posts",<br>
+                &nbsp;&nbsp;type: "POST",<br>
+                &nbsp;&nbsp;data: JSON.stringify({ title: "Test", body: "Content" }),<br>
+                &nbsp;&nbsp;contentType: "application/json",<br>
+                &nbsp;&nbsp;success: function(response) { console.log(response); },<br>
+                &nbsp;&nbsp;error: function(xhr, status, error) { console.error(error); }<br>
+                });
+            </div>
+        </div>
+
+        <!-- 5.4 Error Handling -->
+        <h2 class="section-title" id="errors">
+            <i class="fas fa-exclamation-triangle mr-2"></i> 5.4. Handling Responses and Errors
+        </h2>
+        <div class="demo-card">
+            <h4><i class="fas fa-bug mr-2"></i> HTTP Status Codes & Error Handling</h4>
+
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <h5>✅ Success Codes</h5>
+                    <ul class="list-group">
+                        <li class="list-group-item"><strong>200 OK</strong> - Successful request</li>
+                        <li class="list-group-item"><strong>201 Created</strong> - Resource created</li>
+                        <li class="list-group-item"><strong>204 No Content</strong> - Success, no data</li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <h5>❌ Error Codes</h5>
+                    <ul class="list-group">
+                        <li class="list-group-item"><strong>400 Bad Request</strong> - Client error</li>
+                        <li class="list-group-item"><strong>401 Unauthorized</strong> - Not authorized</li>
+                        <li class="list-group-item"><strong>404 Not Found</strong> - Resource not found</li>
+                        <li class="list-group-item"><strong>500 Internal Server Error</strong> - Server error</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h5>Test Error Handling</h5>
+            <button class="btn btn-success mr-2" onclick="testSuccess()">
+                <i class="fas fa-check mr-2"></i> Test 200 OK
+            </button>
+            <button class="btn btn-warning mr-2" onclick="testNotFound()">
+                <i class="fas fa-question-circle mr-2"></i> Test 404
+            </button>
+            <button class="btn btn-danger mr-2" onclick="testServerError()">
+                <i class="fas fa-times-circle mr-2"></i> Test 500
+            </button>
+
+            <div id="errorTestResult" class="mt-3"></div>
+
+            <div class="code-block mt-3">
+                <strong>Error Handling with Fetch API</strong><br>
+                fetch(url)<br>
+                &nbsp;&nbsp;.then(response => {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;if (!response.ok) {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;throw new Error(`Error ${response.status}`);<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;return response.json();<br>
+                &nbsp;&nbsp;})<br>
+                &nbsp;&nbsp;.catch(error => console.error(error));
+            </div>
+        </div>
+
+        <!-- 5.2 PHP API Reference -->
+        <h2 class="section-title">
+            <i class="fab fa-php mr-2"></i> 5.2. RESTful API in PHP (Reference)
+        </h2>
+        <div class="demo-card">
+            <h4><i class="fas fa-server mr-2"></i> Backend API Structure</h4>
+            <p>Example of a PHP RESTful API that manages users in MySQL:</p>
+
+            <div class="code-block">
+                <strong>users.php - API Endpoint</strong><br><br>
+                &lt;?php<br>
+                header("Content-Type: application/json");<br>
+                include "db.php";<br><br>
+                $method = $_SERVER["REQUEST_METHOD"];<br>
+                switch ($method) {<br>
+                &nbsp;&nbsp;case "GET": getUsers($mysqli); break;<br>
+                &nbsp;&nbsp;case "POST": addUser($mysqli); break;<br>
+                &nbsp;&nbsp;case "PUT": updateUser($mysqli); break;<br>
+                &nbsp;&nbsp;case "DELETE": deleteUser($mysqli); break;<br>
+                }<br><br>
+                function getUsers($mysqli) {<br>
+                &nbsp;&nbsp;$result = $mysqli->query("SELECT * FROM users");<br>
+                &nbsp;&nbsp;$users = $result->fetch_all(MYSQLI_ASSOC);<br>
+                &nbsp;&nbsp;echo json_encode($users);<br>
+                }<br>
+                ?&gt;
+            </div>
+
+            <h5 class="mt-4">Testing with cURL</h5>
+            <div class="code-block">
+                <strong>GET Users:</strong><br>
+                curl -X GET http://localhost/api/users.php<br><br>
+                <strong>POST User:</strong><br>
+                curl -X POST http://localhost/api/users.php \<br>
+                &nbsp;&nbsp;-H "Content-Type: application/json" \<br>
+                &nbsp;&nbsp;-d '{"name": "John", "email": "john@mail.com"}'<br><br>
+                <strong>PUT User:</strong><br>
+                curl -X PUT http://localhost/api/users.php \<br>
+                &nbsp;&nbsp;-H "Content-Type: application/json" \<br>
+                &nbsp;&nbsp;-d '{"id": 1, "name": "John Doe"}'<br><br>
+                <strong>DELETE User:</strong><br>
+                curl -X DELETE http://localhost/api/users.php \<br>
+                &nbsp;&nbsp;-H "Content-Type: application/json" \<br>
+                &nbsp;&nbsp;-d '{"id": 1}'
+            </div>
+        </div>
+
+        <!-- 5.5 Postman Testing -->
+        <h2 class="section-title">
+            <i class="fas fa-paper-plane mr-2"></i> 5.5. Testing with Postman
+        </h2>
+        <div class="demo-card">
+            <h4><i class="fas fa-tools mr-2"></i> API Testing Tool</h4>
+            <p>Postman allows testing RESTful APIs without creating a user interface:</p>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <h5><i class="fas fa-download text-success mr-2"></i> GET Request</h5>
+                            <p><strong>URL:</strong> https://jsonplaceholder.typicode.com/users</p>
+                            <p><strong>Method:</strong> GET</p>
+                            <p>Returns list of users in JSON format</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <h5><i class="fas fa-upload text-primary mr-2"></i> POST Request</h5>
+                            <p><strong>URL:</strong> https://jsonplaceholder.typicode.com/posts</p>
+                            <p><strong>Method:</strong> POST</p>
+                            <p><strong>Body:</strong> JSON with post data</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="alert alert-info">
+                <i class="fas fa-info-circle mr-2"></i>
+                <strong>Tip:</strong> Download Postman from <a href="https://www.postman.com/downloads/"
+                    target="_blank">postman.com</a>
+                to test your APIs visually!
+            </div>
+        </div>
+
+        <!-- Summary -->
+        <div class="demo-card">
+            <h4><i class="fas fa-graduation-cap mr-2"></i> Module 5 Summary</h4>
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>✅ What We Learned</h5>
+                    <ul>
+                        <li><strong>5.1</strong> AJAX fundamentals with Fetch API and jQuery</li>
+                        <li><strong>5.2</strong> Creating RESTful APIs in PHP</li>
+                        <li><strong>5.3</strong> Consuming APIs from Front-end (GET, POST, PUT, DELETE)</li>
+                        <li><strong>5.4</strong> Handling responses and HTTP status codes</li>
+                        <li><strong>5.5</strong> Testing APIs with Postman</li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <h5>🚀 Key Concepts</h5>
+                    <ul>
+                        <li>Asynchronous communication</li>
+                        <li>HTTP methods (GET, POST, PUT, DELETE)</li>
+                        <li>JSON data format</li>
+                        <li>Error handling</li>
+                        <li>RESTful architecture</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        /* ============================================
+           MODULE 5: AJAX & RESTful APIs - COMPLETE EXAMPLE
+           Using JSONPlaceholder API (free REST API for testing)
+           ============================================ */
+
+        const API_URL = "https://jsonplaceholder.typicode.com";
+
+        // ============================================
+        // 5.3 CRUD OPERATIONS WITH FETCH API
+        // ============================================
+
+        // GET - Retrieve Users
+        function fetchGetUsers() {
+            showLoading('loadingFetch');
+            hideMessages();
+
+            fetch(`${API_URL}/users`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(users => {
+                    hideLoading('loadingFetch');
+                    displayUsers(users);
+                    showSuccess('successFetch', `✅ Successfully loaded ${users.length} users!`);
+                    console.log("Users retrieved:", users);
+                })
+                .catch(error => {
+                    hideLoading('loadingFetch');
+                    showError('errorFetch', `❌ Error fetching users: ${error.message}`);
+                    console.error("Error:", error);
+                });
+        }
+
+        // Display users in the interface
+        function displayUsers(users) {
+            const usersList = document.getElementById('usersList');
+            usersList.innerHTML = '';
+
+            users.forEach(user => {
+                const div = document.createElement('div');
+                div.className = 'user-item';
+                div.innerHTML = `
+                    <strong>${user.name}</strong><br>
+                    <small><i class="fas fa-envelope mr-1"></i>${user.email}</small><br>
+                    <small><i class="fas fa-building mr-1"></i>${user.company.name}</small>
+                `;
+                usersList.appendChild(div);
+            });
+        }
+
+        // POST - Create User
+        function fetchPostUser() {
+            const name = document.getElementById('newName').value;
+            const email = document.getElementById('newEmail').value;
+
+            if (!name || !email) {
+                Swal.fire('Error', 'Please fill in all fields', 'warning');
+                return;
+            }
+
+            showLoading('loadingFetch');
+            hideMessages();
+
+            fetch(`${API_URL}/users`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ name, email })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    hideLoading('loadingFetch');
+                    showSuccess('successFetch', `✅ User created successfully! ID: ${data.id}`);
+                    console.log("User created:", data);
+
+                    // Clear form
+                    document.getElementById('newName').value = '';
+                    document.getElementById('newEmail').value = '';
+
+                    Swal.fire('Success!', 'User created', 'success');
+                })
+                .catch(error => {
+                    hideLoading('loadingFetch');
+                    showError('errorFetch', `❌ Error creating user: ${error.message}`);
+                    console.error("Error:", error);
+                });
+        }
+
+        // PUT - Update User
+        function fetchPutUser() {
+            const id = document.getElementById('updateId').value;
+            const name = document.getElementById('updateName').value;
+            const email = document.getElementById('updateEmail').value;
+
+            if (!id || !name || !email) {
+                Swal.fire('Error', 'Please fill in all fields', 'warning');
+                return;
+            }
+
+            showLoading('loadingFetch');
+            hideMessages();
+
+            fetch(`${API_URL}/users/${id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ id, name, email })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    hideLoading('loadingFetch');
+                    showSuccess('successFetch', `✅ User ${id} updated successfully!`);
+                    console.log("User updated:", data);
+                    Swal.fire('Updated!', 'User updated', 'success');
+                })
+                .catch(error => {
+                    hideLoading('loadingFetch');
+                    showError('errorFetch', `❌ Error updating user: ${error.message}`);
+                    console.error("Error:", error);
+                });
+        }
+
+        // DELETE - Delete User
+        function fetchDeleteUser() {
+            const id = document.getElementById('deleteId').value;
+
+            if (!id) {
+                Swal.fire('Error', 'Please enter a user ID', 'warning');
+                return;
+            }
+
+            Swal.fire({
+                title: 'Are you sure?',
+                text: `You will delete user ${id}`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, delete',
+                cancelButtonText: 'Cancel'
+            }).then(result => {
+                if (result.isConfirmed) {
+                    showLoading('loadingFetch');
+                    hideMessages();
+
+                    fetch(`${API_URL}/users/${id}`, {
+                        method: 'DELETE'
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            hideLoading('loadingFetch');
+                            showSuccess('successFetch', `✅ User ${id} deleted successfully!`);
+                            console.log("User deleted:", data);
+                            Swal.fire('Deleted!', 'User deleted', 'success');
+                        })
+                        .catch(error => {
+                            hideLoading('loadingFetch');
+                            showError('errorFetch', `❌ Error deleting user: ${error.message}`);
+                            console.error("Error:", error);
+                        });
+                }
+            });
+        }
+
+        // ============================================
+        // 5.1 JQUERY AJAX EXAMPLES
+        // ============================================
+
+        // jQuery GET - Load Posts
+        function jqueryGetPosts() {
+            $('#postsList').html('<div class="loading" style="display:block"><i class="fas fa-spinner"></i><p>Loading...</p></div>');
+
+            $.ajax({
+                url: `${API_URL}/posts`,
+                type: 'GET',
+                success: function (posts) {
+                    let html = '';
+                    posts.slice(0, 5).forEach(post => {
+                        html += `
+                            <div class="user-item">
+                                <strong>${post.title}</strong><br>
+                                <small>${post.body}</small>
+                            </div>
+                        `;
+                    });
+                    $('#postsList').html(html);
+                    console.log("Posts retrieved:", posts);
+                },
+                error: function (xhr, status, error) {
+                    $('#postsList').html(`<div class="error-message" style="display:block">❌ Error: ${error}</div>`);
+                    console.error("Error:", error);
+                }
+            });
+        }
+
+        // jQuery POST - Create Post
+        function jqueryPostPost() {
+            const title = $('#postTitle').val();
+            const body = $('#postBody').val();
+
+            if (!title || !body) {
+                Swal.fire('Error', 'Please fill in all fields', 'warning');
+                return;
+            }
+
+            $.ajax({
+                url: `${API_URL}/posts`,
+                type: 'POST',
+                data: JSON.stringify({ title, body, userId: 1 }),
+                contentType: 'application/json',
+                success: function (response) {
+                    $('#postResult').html(`
+                        <div class="success-message" style="display:block">
+                            ✅ Post created! ID: ${response.id}
+                        </div>
+                    `);
+                    console.log("Post created:", response);
+                    Swal.fire('Success!', 'Post created', 'success');
+
+                    // Clear form
+                    $('#postTitle').val('');
+                    $('#postBody').val('');
+                },
+                error: function (xhr, status, error) {
+                    $('#postResult').html(`<div class="error-message" style="display:block">❌ Error: ${error}</div>`);
+                    console.error("Error:", error);
+                }
+            });
+        }
+
+        // ============================================
+        // 5.4 ERROR HANDLING TESTS
+        // ============================================
+
+        function testSuccess() {
+            fetch(`${API_URL}/users/1`)
+                .then(response => {
+                    if (!response.ok) throw new Error(`Error ${response.status}`);
+                    return response.json();
+                })
+                .then(data => {
+                    $('#errorTestResult').html(`
+                        <div class="success-message" style="display:block">
+                            ✅ <strong>200 OK</strong> - User found: ${data.name}
+                        </div>
+                    `);
+                })
+                .catch(error => {
+                    $('#errorTestResult').html(`<div class="error-message" style="display:block">❌ ${error.message}</div>`);
+                });
+        }
+
+        function testNotFound() {
+            fetch(`${API_URL}/users/99999`)
+                .then(response => {
+                    if (!response.ok) throw new Error(`Error ${response.status}: ${response.statusText}`);
+                    return response.json();
+                })
+                .then(data => {
+                    $('#errorTestResult').html(`<div class="success-message" style="display:block">✅ User found</div>`);
+                })
+                .catch(error => {
+                    $('#errorTestResult').html(`
+                        <div class="error-message" style="display:block">
+                            ⚠️ <strong>404 Not Found</strong> - ${error.message}
+                        </div>
+                    `);
+                });
+        }
+
+        function testServerError() {
+            fetch('https://httpbin.org/status/500')
+                .then(response => {
+                    if (!response.ok) throw new Error(`Error ${response.status}: ${response.statusText}`);
+                    return response.json();
+                })
+                .then(data => {
+                    $('#errorTestResult').html(`<div class="success-message" style="display:block">✅ Success</div>`);
+                })
+                .catch(error => {
+                    $('#errorTestResult').html(`
+                        <div class="error-message" style="display:block">
+                            ❌ <strong>500 Internal Server Error</strong> - ${error.message}
+                        </div>
+                    `);
+                });
+        }
+
+        // ============================================
+        // HELPER FUNCTIONS
+        // ============================================
+
+        function showLoading(id) {
+            document.getElementById(id).style.display = 'block';
+        }
+
+        function hideLoading(id) {
+            document.getElementById(id).style.display = 'none';
+        }
+
+        function hideMessages() {
+            document.getElementById('errorFetch').style.display = 'none';
+            document.getElementById('successFetch').style.display = 'none';
+        }
+
+        function showError(id, message) {
+            const element = document.getElementById(id);
+            element.textContent = message;
+            element.style.display = 'block';
+        }
+
+        function showSuccess(id, message) {
+            const element = document.getElementById(id);
+            element.textContent = message;
+            element.style.display = 'block';
+        }
+
+        // Initialize
+        console.log("%c🚀 Module 5: AJAX & RESTful APIs loaded!", 'color: #667eea; font-size: 16px; font-weight: bold;');
+        console.log("API URL:", API_URL);
+    </script>
+
+</body>
+
+</html>

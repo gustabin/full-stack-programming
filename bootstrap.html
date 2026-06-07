@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bootstrap Complete Example - CSS3 Course</title>
+
+    <!-- 2.5.2. Installing Bootstrap via CDN -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- 2.5.6. Bootstrap Customization - Custom CSS -->
+    <style>
+        /* Custom styles to override Bootstrap defaults */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        /* Custom navbar styling */
+        .navbar-custom {
+            background: linear-gradient(90deg, #2c3e50 0%, #34495e 100%) !important;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-custom .navbar-brand {
+            color: #fff !important;
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+
+        .navbar-custom .nav-link {
+            color: #ecf0f1 !important;
+            transition: color 0.3s ease;
+        }
+
+        .navbar-custom .nav-link:hover {
+            color: #3498db !important;
+        }
+
+        /* Custom card styling */
+        .card-custom {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin-bottom: 20px;
+        }
+
+        .card-custom:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-header-custom {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 15px 15px 0 0 !important;
+            font-weight: bold;
+        }
+
+        /* Custom button styling */
+        .btn-custom {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            color: white;
+            padding: 10px 25px;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-custom:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+            color: white;
+        }
+
+        /* Section styling */
+        .section-title {
+            color: white;
+            text-align: center;
+            margin: 40px 0 30px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            font-weight: bold;
+        }
+
+        /* Form styling */
+        .form-custom {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-control:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+        }
+
+        /* Grid demo boxes */
+        .grid-demo-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            margin: 10px 0;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: bold;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Responsive text helper */
+        .responsive-indicator {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: center;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .responsive-indicator::after {
+            content: "🖥️ Desktop (>1200px)";
+        }
+
+        @media (max-width: 1199px) {
+            .responsive-indicator::after {
+                content: "💻 Large Screen (992px - 1200px)";
+            }
+        }
+
+        @media (max-width: 991px) {
+            .responsive-indicator::after {
+                content: "📱 Tablet (768px - 992px)";
+            }
+        }
+
+        @media (max-width: 767px) {
+            .responsive-indicator::after {
+                content: "📱 Small Tablet (576px - 768px)";
+            }
+        }
+
+        @media (max-width: 575px) {
+            .responsive-indicator::after {
+                content: "📱 Mobile (<576px)";
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- 2.5.5. Navbars Component -->
+    <nav class="navbar navbar-expand-lg navbar-custom">
+        <a class="navbar-brand" href="#">🚀 Bootstrap Course</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#grid">Grid System <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#components">Components</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#form">Form</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#custom">Customization</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+
+        <!-- Responsive Indicator -->
+        <div class="responsive-indicator"></div>
+
+        <!-- 2.5.3. & 2.5.4. Grid System and Breakpoints -->
+        <h2 class="section-title" id="grid">2.5.3. Grid System & 2.5.4. Breakpoints</h2>
+
+        <div class="container">
+            <!-- Example 1: Equal columns -->
+            <div class="row mb-4">
+                <div class="col-12 text-center text-white mb-2">
+                    <strong>Example 1: Three Equal Columns (col-md-4)</strong>
+                </div>
+                <div class="col-md-4">
+                    <div class="grid-demo-box">Column 1 (md-4)</div>
+                </div>
+                <div class="col-md-4">
+                    <div class="grid-demo-box">Column 2 (md-4)</div>
+                </div>
+                <div class="col-md-4">
+                    <div class="grid-demo-box">Column 3 (md-4)</div>
+                </div>
+            </div>
+
+            <!-- Example 2: Responsive Breakpoints -->
+            <div class="row mb-4">
+                <div class="col-12 text-center text-white mb-2">
+                    <strong>Example 2: Responsive Breakpoints (xs-12 sm-6 md-4 lg-3)</strong>
+                </div>
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                    <div class="grid-demo-box">Item 1<br><small>100% → 50% → 33% → 25%</small></div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                    <div class="grid-demo-box">Item 2<br><small>100% → 50% → 33% → 25%</small></div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                    <div class="grid-demo-box">Item 3<br><small>100% → 50% → 33% → 25%</small></div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                    <div class="grid-demo-box">Item 4<br><small>100% → 50% → 33% → 25%</small></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2.5.5. Basic Bootstrap Components -->
+        <h2 class="section-title" id="components">2.5.5. Basic Bootstrap Components</h2>
+
+        <div class="container">
+            <!-- Buttons Section -->
+            <div class="row mb-5">
+                <div class="col-12">
+                    <div class="card card-custom">
+                        <div class="card-header card-header-custom">
+                            🎨 Buttons
+                        </div>
+                        <div class="card-body">
+                            <button type="button" class="btn btn-primary mr-2 mb-2">Primary Button</button>
+                            <button type="button" class="btn btn-secondary mr-2 mb-2">Secondary Button</button>
+                            <button type="button" class="btn btn-success mr-2 mb-2">Success Button</button>
+                            <button type="button" class="btn btn-danger mr-2 mb-2">Danger Button</button>
+                            <button type="button" class="btn btn-warning mr-2 mb-2">Warning Button</button>
+                            <button type="button" class="btn btn-info mr-2 mb-2">Info Button</button>
+                            <button type="button" class="btn btn-custom mr-2 mb-2">Custom Gradient</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cards Section -->
+            <div class="row mb-5">
+                <div class="col-12 text-center text-white mb-3">
+                    <h4>📦 Cards Component</h4>
+                </div>
+                <div class="col-md-4">
+                    <div class="card card-custom">
+                        <img src="https://via.placeholder.com/300x200/667eea/ffffff?text=Card+Image+1"
+                            class="card-img-top" alt="Card Image 1">
+                        <div class="card-body">
+                            <h5 class="card-title">Card Title 1</h5>
+                            <p class="card-text">Some quick example text to build on the card title and make up the bulk
+                                of the card's content.</p>
+                            <a href="#" class="btn btn-custom">Go somewhere</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card card-custom">
+                        <img src="https://via.placeholder.com/300x200/764ba2/ffffff?text=Card+Image+2"
+                            class="card-img-top" alt="Card Image 2">
+                        <div class="card-body">
+                            <h5 class="card-title">Card Title 2</h5>
+                            <p class="card-text">Some quick example text to build on the card title and make up the bulk
+                                of the card's content.</p>
+                            <a href="#" class="btn btn-custom">Learn more</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card card-custom">
+                        <img src="https://via.placeholder.com/300x200/2c3e50/ffffff?text=Card+Image+3"
+                            class="card-img-top" alt="Card Image 3">
+                        <div class="card-body">
+                            <h5 class="card-title">Card Title 3</h5>
+                            <p class="card-text">Some quick example text to build on the card title and make up the bulk
+                                of the card's content.</p>
+                            <a href="#" class="btn btn-custom">View details</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Forms Section -->
+        <h2 class="section-title" id="form">📝 Forms Component</h2>
+
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-8 col-lg-6">
+                    <div class="form-custom">
+                        <h4 class="text-center mb-4">Contact Form</h4>
+                        <form>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Email address</label>
+                                <input type="email" class="form-control" id="exampleInputEmail1"
+                                    placeholder="Enter email">
+                                <small class="form-text text-muted">We'll never share your email with anyone
+                                    else.</small>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputName">Full Name</label>
+                                <input type="text" class="form-control" id="exampleInputName"
+                                    placeholder="Enter your name">
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">Password</label>
+                                <input type="password" class="form-control" id="exampleInputPassword1"
+                                    placeholder="Password">
+                            </div>
+                            <div class="form-group form-check">
+                                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                                <label class="form-check-label" for="exampleCheck1">Subscribe to newsletter</label>
+                            </div>
+                            <button type="submit" class="btn btn-custom btn-block">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Customization Section -->
+        <h2 class="section-title" id="custom">2.5.6. Bootstrap Customization</h2>
+
+        <div class="container mb-5">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card card-custom">
+                        <div class="card-header card-header-custom">
+                            🎨 CSS Customization
+                        </div>
+                        <div class="card-body">
+                            <p>This page demonstrates how to customize Bootstrap using custom CSS:</p>
+                            <ul>
+                                <li>Custom gradient backgrounds</li>
+                                <li>Modified navbar colors and styles</li>
+                                <li>Enhanced card hover effects</li>
+                                <li>Custom button styling with gradients</li>
+                                <li>Custom form focus states</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card card-custom">
+                        <div class="card-header card-header-custom">
+                            🔧 SCSS Customization
+                        </div>
+                        <div class="card-body">
+                            <p>For advanced customization, you can:</p>
+                            <ul>
+                                <li>Download Bootstrap SCSS source files</li>
+                                <li>Modify color variables ($primary, $secondary, etc.)</li>
+                                <li>Change spacing and sizing variables</li>
+                                <li>Customize breakpoints</li>
+                                <li>Compile to generate custom CSS</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Summary Section -->
+        <div class="container mb-5">
+            <div class="card card-custom">
+                <div class="card-header card-header-custom">
+                    📚 Summary
+                </div>
+                <div class="card-body">
+                    <h5>In this example, we covered:</h5>
+                    <ul>
+                        <li><strong>2.5.1</strong> What Bootstrap is and its benefits</li>
+                        <li><strong>2.5.2</strong> Installing Bootstrap via CDN</li>
+                        <li><strong>2.5.3</strong> Grid System with 12-column layout</li>
+                        <li><strong>2.5.4</strong> Breakpoints (xs, sm, md, lg, xl) for responsive design</li>
+                        <li><strong>2.5.5</strong> Basic components: Buttons, Cards, Forms, Navbars</li>
+                        <li><strong>2.5.6</strong> Customization via CSS and SCSS</li>
+                    </ul>
+                    <p class="text-center mt-3">
+                        <strong>✨ With Bootstrap, creating fast, modern, and responsive websites is much easier and more
+                            efficient!</strong>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Bootstrap JavaScript dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+
+</html>

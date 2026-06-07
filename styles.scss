@@ -1,0 +1,40 @@
+/* styles.scss */
+$primary-color: #3498db;
+$secondary-color: #2ecc71;
+$padding: 20px;
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    padding: 0;
+    margin: 0;
+}
+header {
+    background-color: $primary-color;
+    color: white;
+    padding: $padding;
+    text-align: center;
+}
+section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    padding: $padding;
+    background-color: white;
+}
+footer {
+    background-color: $secondary-color;
+    color: white;
+    text-align: center;
+  padding: $padding;
+}
+/* Icon styles */
+i.fas {
+    font-size: 30px;
+    margin-right: 10px;
+}
+/* Responsive design */
+@media screen and (max-width: 600px) {
+    section {
+        grid-template-columns: 1fr;
+  }
+}

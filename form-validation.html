@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Form Validation Demo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 500px;
+            margin: 20px auto;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        input {
+            padding: 8px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        /* 3.3.6 Style for error messages */
+        .error-msg {
+            color: red;
+            font-size: 0.85em;
+            min-height: 1.2em;
+            display: block;
+            margin-top: 4px;
+        }
+
+        .success-msg {
+            color: green;
+            font-weight: bold;
+        }
+
+        button {
+            padding: 10px 15px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h2>Registration Form</h2>
+
+    <!-- 3.3.7 HTML5 Validation Attributes (required, type, minlength) are included here. 
+         Note: We add 'novalidate' so the browser doesn't block submission with native tooltips, 
+         allowing our custom JavaScript validation and DOM error messages (3.3.6) to run instead. -->
+    <form id="miForm" novalidate>
+
+        <div class="form-group">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required> <!-- 3.3.7 HTML5 required -->
+            <span class="error-msg" id="errorName"></span> <!-- 3.3.6 Container for JS error -->
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required> <!-- 3.3.7 HTML5 type & required -->
+            <span class="error-msg" id="errorEmail"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" minlength="8" required> <!-- 3.3.7 HTML5 minlength -->
+            <span class="error-msg" id="errorPassword"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="age">Age:</label>
+            <input type="text" id="age" name="age" required>
+            <span class="error-msg" id="errorAge"></span>
+        </div>
+
+        <button type="submit">Submit</button>
+        <p id="formStatus"></p>
+    </form>
+
+    <script>
+        const form = document.getElementById("miForm");
+        const formStatus = document.getElementById("formStatus");
+
+        // Listen for the form submission event
+        form.addEventListener("submit", function (event) {
+            // Clear previous error messages and status
+            document.querySelectorAll(".error-msg").forEach(el => el.textContent = "");
+            formStatus.textContent = "";
+            formStatus.className = "";
+
+            let isValid = true;
+
+            // --- 3.3.3 & 3.3.6 Validating Required Field & Displaying Errors in DOM ---
+            const name = document.getElementById("name").value;
+            const errorName = document.getElementById("errorName");
+            if (name === "") {
+                errorName.textContent = "The name field is required.";
+                isValid = false;
+            }
+
+            // --- 3.3.3 Validating Email Format with Regex ---
+            const email = document.getElementById("email").value;
+            const errorEmail = document.getElementById("errorEmail");
+            const regexEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+            if (email === "") {
+                errorEmail.textContent = "The email field is required.";
+                isValid = false;
+            } else if (!regexEmail.test(email)) {
+                errorEmail.textContent = "Please enter a valid email address.";
+                isValid = false;
+            }
+
+            // --- 3.3.4 Password Validation with Regex ---
+            const password = document.getElementById("password").value;
+            const errorPassword = document.getElementById("errorPassword");
+            // Regex: 8+ chars, at least 1 uppercase, 1 number, 1 special character
+            const regexPassword = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+            if (!regexPassword.test(password)) {
+                errorPassword.textContent = "Must be 8+ chars, 1 uppercase, 1 number, 1 special char.";
+                isValid = false;
+            }
+
+            // --- 3.3.5 Validating Numeric Fields ---
+            const age = document.getElementById("age").value;
+            const errorAge = document.getElementById("errorAge");
+
+            if (isNaN(age) || age === "" || Number(age) < 18) {
+                errorAge.textContent = "Age must be a number and 18 or older.";
+                isValid = false;
+            }
+
+            // --- Prevent form submission if any validation failed ---
+            if (!isValid) {
+                event.preventDefault();   // 3.3.3 Prevents form submission
+                formStatus.textContent = "Please fix the errors above before submitting.";
+                formStatus.style.color = "red";
+            } else {
+                // If valid, prevent default just for this demo so the page doesn't reload
+                event.preventDefault();
+                formStatus.textContent = "Form submitted successfully! (All validations passed)";
+                formStatus.className = "success-msg";
+            }
+        });
+    </script>
+</body>
+
+</html>

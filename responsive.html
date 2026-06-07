@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Design & Media Queries Example</title>
+    <style>
+        /* =========================================
+           2.4.1. What is Responsive Design?
+           Responsive design allows web pages to efficiently adapt 
+           to different screen sizes and devices (desktop, tablet, mobile).
+           ========================================= */
+
+        /* Default style (for large screens > 768px) */
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 18px;
+            background-color: lightgray;
+            /* Visual cue: Default */
+            margin: 20px;
+            padding: 0;
+            line-height: 1.6;
+            transition: background-color 0.3s ease, font-size 0.3s ease;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+
+        h2 {
+            color: #444;
+            border-bottom: 2px solid #ccc;
+            padding-bottom: 5px;
+            margin-top: 30px;
+        }
+
+        p {
+            color: #555;
+            margin: 20px;
+            padding: 15px;
+            background-color: white;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+
+        .info-box {
+            background-color: #e8f4f8;
+            border-left: 5px solid #007bff;
+            padding: 15px;
+            margin: 20px;
+            border-radius: 4px;
+            font-size: 0.95em;
+        }
+
+        .responsive-img {
+            display: block;
+            width: 300px;
+            margin: 20px auto;
+            border: 3px solid #333;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        /* =========================================
+           2.4.2. & 2.4.3. Media Queries in CSS
+           Basic syntax: @media (condition) { styles }
+           ========================================= */
+
+        /* 1. max-width: For medium screens (tablets <= 768px) */
+        @media (max-width: 768px) {
+            body {
+                font-size: 16px;
+                margin: 10px;
+                background-color: #d1ecf1;
+                /* Visual cue: Tablet */
+            }
+
+            p {
+                margin: 10px;
+                padding: 10px;
+            }
+        }
+
+        /* 1. max-width: For small screens (mobile <= 480px) */
+        @media (max-width: 480px) {
+            body {
+                font-size: 14px;
+                margin: 5px;
+                background-color: #fff3cd;
+                /* Visual cue: Mobile */
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            p {
+                margin: 5px;
+                padding: 10px;
+            }
+        }
+
+        /* 2. orientation: landscape (horizontal) */
+        @media (orientation: landscape) {
+            body {
+                /* Example adjustment for horizontal mode */
+                font-size: 1.5rem;
+            }
+
+            .orientation-indicator::after {
+                content: " [Device in Landscape Mode 🔄]";
+                color: #d9534f;
+                font-weight: bold;
+                font-size: 0.6em;
+                vertical-align: middle;
+            }
+        }
+
+        /* 3. resolution: high pixel density screens (e.g., Retina >= 2dppx) */
+        @media (min-resolution: 2dppx) {
+            .responsive-img {
+                width: 100%;
+                /* As per the provided example */
+                border-color: #28a745;
+                /* Visual cue: High-res applied */
+            }
+
+            .resolution-indicator::after {
+                content: " [High-Resolution Screen Detected 🖥️]";
+                color: #28a745;
+                font-weight: bold;
+                font-size: 0.6em;
+                vertical-align: middle;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <h1>
+        Welcome to the CSS3 Course
+        <span class="orientation-indicator"></span>
+        <span class="resolution-indicator"></span>
+    </h1>
+
+    <div class="info-box">
+        <strong>💡 Tip:</strong> Resize your browser window or open this page on different devices to see the Responsive
+        Design and Media Queries in action! Notice how the background color, font sizes, and indicators change.
+    </div>
+
+    <h2>2.4.1. What is Responsive Design?</h2>
+    <p>Responsive design is a web design technique that allows web pages to efficiently adapt to different screen sizes
+        and devices, such as desktop computers, tablets, and mobile phones. The goal is to provide a consistent and
+        optimal user experience, regardless of the device used to access the website.</p>
+
+    <h2>2.4.2. Media Queries in CSS</h2>
+    <p>Media queries are a key CSS3 feature that allows applying different CSS styles depending on device or browser
+        window characteristics, such as size, orientation, or resolution.</p>
+    <div class="info-box">
+        <strong>Basic syntax:</strong><br>
+        <code>@media (condition) { <br>&nbsp;&nbsp;/* CSS styles that will apply if the condition is met */ <br>}</code>
+    </div>
+
+    <h2>2.4.3. Common Conditions in Media Queries</h2>
+    <p><strong>1. max-width and min-width:</strong> These conditions allow applying CSS styles depending on the maximum
+        or minimum browser window size.</p>
+    <p><strong>2. orientation:</strong> Allows applying styles based on device orientation, either landscape
+        (horizontal) or portrait (vertical).</p>
+    <p><strong>3. resolution:</strong> Used to adjust styles based on device resolution, such as high pixel density
+        screens (e.g., Retina).</p>
+
+    <h2>2.4.4. Using Media Queries for Responsive Design</h2>
+    <p>The main idea is to adjust your design for different devices using <code>min-width</code> and <-width> within
+            media queries. In this example:</p>
+    <ul style="margin: 20px; padding-left: 40px; color: #555;">
+        <li>If the screen is <strong>wider than 768px</strong>, default styles apply (Light Gray background).</li>
+        <li>If the screen is <strong>768px or narrower</strong> (like tablets), styles inside the media query apply
+            (Light Blue background).</li>
+        <li>If the screen is <strong>480px or narrower</strong> (like mobile), corresponding styles apply (Light Yellow
+            background).</li>
+    </ul>
+
+    <!-- Example image to demonstrate resolution media query -->
+    <img src="https://via.placeholder.com/600x300/007bff/ffffff?text=Responsive+Image+Example" alt="Responsive Image"
+        class="responsive-img">
+    <p style="text-align: center; font-size: 0.9em; font-style: italic;">(The image border turns green and width becomes
+        100% on high-resolution screens)</p>
+</body>
+
+</html>
