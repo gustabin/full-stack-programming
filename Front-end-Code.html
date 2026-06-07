@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Store</title>
+    <script>
+        function buy() {
+            fetch("backend.php?product=1")
+                .then(response => response.json())
+                .then(data => alert(data.message))
+                .catch(error => console.log("Error:", error));
+        }
+    </script>
+</head>
+
+<body>
+    <h1>Online Store</h1>
+    <p>Product: Laptop - $500</p>
+    <button onclick="buy()">Buy</button>
+</body>
+
+</html>
